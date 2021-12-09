@@ -54,6 +54,7 @@ class Tictactoe:
     def check_board(self):
         d1 = list()
         d2 = list()
+        all_spaces = list()
         for i in range(3):
             d1.append(self.board[i][i])
             d2.append(self.board[i][2-i])
@@ -61,8 +62,13 @@ class Tictactoe:
                 self.show_winner()
                 self.reset_board()
                 return True
+            all_spaces.extend([space for space in self.board[i]])
         if "".join(d1) == "XXX" or "".join(d2) == "XXX" or "".join(d1) == "OOO" or "".join(d2) == "OOO":
             self.show_winner()
+            self.reset_board()
+            return True
+        if " " not in all_spaces:
+            self.show_tie()
             self.reset_board()
             return True
     
@@ -72,6 +78,9 @@ class Tictactoe:
         else: self.x_wins += 1
         self.track_winners_lbl.config(text=f"X won {tic_tac_toe.x_wins} times,    O won {tic_tac_toe.o_wins} times.")
         messagebox.showinfo(title="We have a winner", message=f"The winner is {self.letter}. Congratulations!")
+    
+    def show_tie(self):
+        messagebox.showinfo(title="It's a tie", message="Shocking, nobody won! Try again.")
 
 
 
